@@ -106,3 +106,16 @@ impl Summarizable for PressArticle{
         format!("Article {} qui décrit {}. rédigé par {} à {}",self.title,self.content,self.author,self.place)
     }
 }
+
+pub struct Tweet{
+    pub username: String,
+    pub content: String,
+    pub response: bool,
+    pub retweet: bool,
+}
+
+impl Summarizable for Tweet {
+    fn summarize(&self) -> String {
+        format!("tweet de {}, il dit: {}",self.username,self.content)
+    }
+}
