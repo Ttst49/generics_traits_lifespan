@@ -86,3 +86,9 @@ fn create_point_from_generic_struct(){
     println!("int.x ={} et int.y = {}",ints.x(),floats.y())
 
 }
+
+//start trait section
+
+pub trait Summarizable{
+    fn summarize(&self)->String;
+}
