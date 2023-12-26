@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 fn main() {
-    using_trait()
+    test_lifespan_and_make_error()
 }
 
 
@@ -161,7 +161,7 @@ fn notifier(el : &impl Summarizable){
 
 //can make it more clear and working for each params of a function
 fn notifier_with_linked_trait<T: Summarizable + Display>(el : &T){
-    println!("Flash info ! {}", el.resumer());
+    println!("Flash info ! {}", el.summarize());
 }
 
 // you can either use this way
@@ -169,8 +169,9 @@ fn notifier_with_linked_trait<T: Summarizable + Display>(el : &T){
 
 // or this one
 fn function<T,U>(t: &T, u: &U)->i64
-where T: Display + Clone,
-      U: Display + Summarizable
+where
+    T: Display + Clone,
+    U: Display + Summarizable
 {
     25
 }
@@ -184,3 +185,43 @@ fn return_summarizable()-> impl Summarizable{
         retweet: false,
     }
 }
+
+//using linked_trait with only specific method in impl
+
+struct Pair<T>{
+    x:T,
+    y:T
+}
+
+impl<T> Pair<T>{
+    fn new(x:T, y:T)->Self{
+        Self{ x, y}
+    }
+}
+
+impl<T: Display + PartialOrd> Pair<T>  {
+    fn compare(&self) {
+        if self.x >= self.y {
+            println!("Le plus grand élément est x = {}", self.x);
+        } else {
+            println!("Le plus grand élément est y = {}", self.y);
+        }
+    }
+}
+
+
+//lifespan start here
+
+
+fn test_lifespan_and_make_error(){
+
+    let r;
+
+    {
+        let x = 5;
+        r = &x;
+    }//x stop here, then r can't keep &x value and it panic
+
+    println!("r: {}",r)
+}
+
