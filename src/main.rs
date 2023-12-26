@@ -92,3 +92,17 @@ fn create_point_from_generic_struct(){
 pub trait Summarizable{
     fn summarize(&self)->String;
 }
+
+
+pub struct PressArticle {
+    pub title: String,
+    pub place: String,
+    pub author: String,
+    pub content: String
+}
+
+impl Summarizable for PressArticle{
+    fn summarize(&self) -> String {
+        format!("Article {} qui décrit {}. rédigé par {} à {}",self.title,self.content,self.author,self.place)
+    }
+}
