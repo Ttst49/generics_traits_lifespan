@@ -1,5 +1,5 @@
 fn main() {
-    launch_greater_application()
+    using_trait()
 }
 
 
@@ -90,7 +90,11 @@ fn create_point_from_generic_struct(){
 //start trait section
 
 pub trait Summarizable{
-    fn summarize(&self)->String;
+
+    fn resume_author(&self)->String;
+    fn summarize(&self)->String{
+        format!("{}, en savoir plus ...", self.resume_author())
+    }
 }
 
 
@@ -101,11 +105,14 @@ pub struct PressArticle {
     pub content: String
 }
 
+// if no definition of trait inside impl, it use the default value
 impl Summarizable for PressArticle{
-    fn summarize(&self) -> String {
-        format!("Article {} qui décrit {}. rédigé par {} à {}",self.title,self.content,self.author,self.place)
+    fn resume_author(&self) -> String {
+        format!("L'auteur est {}", self.author)
     }
 }
+
+
 
 pub struct Tweet{
     pub username: String,
@@ -115,6 +122,10 @@ pub struct Tweet{
 }
 
 impl Summarizable for Tweet {
+    fn resume_author(&self) -> String {
+        format!("Auteur est {}", self.username)
+    }
+
     fn summarize(&self) -> String {
         format!("tweet de {}, il dit: {}",self.username,self.content)
     }
@@ -139,4 +150,14 @@ fn using_trait(){
     };
 
     println!("1 nouvel article de presse: {}", press_article.summarize())
+}
+
+//can add implementation in a function, then it can only accept variable that got this trait
+fn notifier(el : &impl Summarizable){
+    println!("Eh oh regarde ça {}",el.summarize())
+}
+
+//can make it more clear and working for each params of a function
+fn notifier_with_linked_trait<T: Summarizable>(el : &T){
+    println!("Flash info ! {}", el.resumer());
 }
