@@ -119,3 +119,24 @@ impl Summarizable for Tweet {
         format!("tweet de {}, il dit: {}",self.username,self.content)
     }
 }
+
+//using trait inside a function
+fn using_trait(){
+    let tweet = Tweet{
+        username: String::from("john"),
+        content: String::from("Il y a actuellement 7 merveilles dans le monde"),
+        response: true,
+        retweet: true,
+    };
+
+    println!("1 nouvelle notification: {}",tweet.summarize());
+
+    let press_article = PressArticle{
+        title: String::from("partie gratuite au laser game de Nice"),
+        place: String::from("Nice"),
+        author: String::from("Philippe Henry"),
+        content: String::from("Il y a actuellement une partie gratuite de laser game de Nice sur demande au journal"),
+    };
+
+    println!("1 nouvel article de presse: {}", press_article.summarize())
+}
