@@ -1,3 +1,5 @@
+use std::fmt::Display;
+
 fn main() {
     using_trait()
 }
@@ -38,18 +40,18 @@ fn find_greater_char(list : &[char])->char{
 }
 
 //generic function that return the greater value from a T generic variable
-//fn find_greater<T>(list: &[T])->T{
+fn find_greater<T: PartialOrd + Copy>(list: &[T])->T{
 
-  //  let mut greater_value = list[0];
+    let mut greater_value = list[0];
 
-    //for &value in list {
-      //  if value > greater_value {
-        //    greater_value = value;
-        //}
-    //}
-    //greater_value
+    for &value in list {
+        if value > greater_value {
+            greater_value = value;
+        }
+    }
+    greater_value
 
-//}
+}
 
 //start generic in struct
 struct Point<T>{
@@ -158,6 +160,27 @@ fn notifier(el : &impl Summarizable){
 }
 
 //can make it more clear and working for each params of a function
-fn notifier_with_linked_trait<T: Summarizable>(el : &T){
+fn notifier_with_linked_trait<T: Summarizable + Display>(el : &T){
     println!("Flash info ! {}", el.resumer());
+}
+
+// you can either use this way
+//     fn une_fonction<T: Display + Clone, U: Clone + Debug>(t: &T, u: &U) -> i32 {}
+
+// or this one
+fn function<T,U>(t: &T, u: &U)->i64
+where T: Display + Clone,
+      U: Display + Summarizable
+{
+    25
+}
+
+//you can use as a return in a function the trait
+fn return_summarizable()-> impl Summarizable{
+    Tweet{
+        username: String::from("louis"),
+        content: String::from("coucou"),
+        response: false,
+        retweet: false,
+    }
 }
