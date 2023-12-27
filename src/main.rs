@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 fn main() {
-    test_lifespan_and_make_error()
+    get_preview_from_book()
 }
 
 
@@ -213,26 +213,39 @@ impl<T: Display + PartialOrd> Pair<T>  {
 //lifespan start here
 
 
-fn test_lifespan_and_make_error(){
+//fn test_lifespan_and_make_error(){
 
-    let r;
+  //  let r;
 
-    {
-        let x = 5;
-        r = &x;
-    }//x stop here, then r can't keep &x value and it panic
+    //{
+      //  let x = 5;
+        //r = &x;
+    //}//x stop here, then r can't keep &x value and it panic
 
-    println!("r: {}",r)
-}
+    //println!("r: {}",r)
+//}
 
-fn longest<'a>(x: &'a str, y: &str)-> &'a str{
+
+//fn longest<'a>(x: &'a str, y: &str)-> &'a str{
     //this won't work because it dont return &'a str
-    let result = String::from("très longue chaîne");
-    result.as_str()
-}
+    //let result = String::from("très longue chaîne");
+    //result.as_str()
+//}
 
 
 struct ImportantPreview<'a>{
     part: &'a str
 }
 
+fn get_preview_from_book(){
+    let book = String::from("There is a vampire. His name is Dracula!");
+    let first_sentence = book.split(".")
+        .next()
+        .expect("Impossible de trouver un point");
+    let preview = ImportantPreview{ part: first_sentence};
+}
+
+fn the_longest_with_announcement<'a, T>(x: &'a str,y: &'a str,ann: T)->&'a str where T: Display{
+    println!("Annonce: {}",ann);
+    if x.len() >y.len() { x } else { y }
+}
