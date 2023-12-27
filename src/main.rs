@@ -225,3 +225,9 @@ fn test_lifespan_and_make_error(){
     println!("r: {}",r)
 }
 
+fn longest<'a>(x: &'a str, y: &str)-> &'a str{
+    //this won't work because it dont return &'a str
+    let result = String::from("très longue chaîne");
+    result.as_str()
+}
+
