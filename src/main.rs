@@ -231,3 +231,8 @@ fn longest<'a>(x: &'a str, y: &str)-> &'a str{
     result.as_str()
 }
 
+
+struct ImportantPreview<'a>{
+    part: &'a str
+}
+
